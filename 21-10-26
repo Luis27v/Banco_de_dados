@@ -1,0 +1,33 @@
+use bd_rh_0302;
+
+-- 01 - lista os funcionarios que estao abaixo da média salarial
+-- media
+
+select avg(salario) from tb_funcionario;
+
+select funcionario, salario from tb_funcionario 
+where salario < (select avg(salario) from tb_funcionario);
+
+-- 02 - lista o total de funcionarios
+
+select C.cargo, count(F.matricula) qtd from 
+tb_funcionario F inner join tb_cargo C
+on F.cd_cargo = C.cd_cargo
+group by C.cargo;
+
+-- 03 - lista os funcionarios, cargo
+
+
+start transaction; 
+
+select * from tb_funcionario;
+
+update tb_funcionario 
+set salario = salario * 1.3
+where matricula < 50;
+
+select * from tb_funcionario;
+
+rollback;
+
+select * from tb_funcionario;
